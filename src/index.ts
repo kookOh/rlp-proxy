@@ -1,7 +1,9 @@
 require('dotenv').config();
+
 import express, { Response } from 'express';
-import { getMetadata } from './lib';
+
 import { APIOutput } from './types';
+import { getMetadata } from './lib';
 
 const app = express();
 
@@ -28,7 +30,7 @@ app.listen(port, () => {
 
 app.use(express.static('public'));
 
-app.get('/', async (req, res) => {
+app.get('/meta', async (req, res) => {
   const url = req.query.url as unknown as string;
   const metadata = await getMetadata(url);
   return res
@@ -37,7 +39,7 @@ app.get('/', async (req, res) => {
     .json({ metadata });
 });
 
-app.get('/v2', async (req, res) => {
+app.get('/v2/meta', async (req, res) => {
   try {
     let url = req.query.url as unknown as string;
     url = url.toLowerCase();
